@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        <header>
+            <div>
+                <img src="/img/portadaLibreria.jpg" class="d-block w-100 sizePortada" alt="biblioteca">
+                <div class="carousel-caption d-none d-md-block h1PositionPortada">
+                    <h1 class="h1PortadaText font-italic">StockLi</h1>
+                </div>
+                <div class="carousel-caption d-none d-md-block h2PositionPortada">
+                    <h2 class="h2PortadaText font-italic" th:if="${session.usuariosession != null}" th:text="${'¡¡Bienvenido/a ' + session.usuariosession.nombre + ' ' +session.usuariosession.apellido + '!!'}"></h2>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div>
+                <h3 class="masthead-subheading mb-0 ">¿Qué podés hacer en StockLi?</h3>
+            </div>
+            <section class="homepageSections row">
+                <div class="homepageDiv">
+                    <p class="font-weight-bold">Vas a tener a tu alcance una gran cantidad de libros muy diversos y la posibilidad de tenerlos en forma de préstamo!! Además si sos admin podras administrarlos!!</p>
+                    <a th:href="@{/libro/lista}" class="btn btn-dark btn-xl rounded-pill mt-2">Libros</a>
+                </div>
+                <img src="/img/libro.jpg" class="imgsHomepage">
+            </section>
+            <section class="homepageSections row colorSection">
+                <img src="/img/autor.jpg" class="imgsHomepage">
+                <div class="homepageDiv">
+                    <p class="font-weight-bold">Vas a tener a tu alcance una lista con todos los autores disponibles y si tenes la posibilidad de ser admin, vas a poder administrarlos!!</p>
+                    <a th:href="@{/autor/lista}" class="btn btn-light btn-xl rounded-pill mt-2">Autores</a>
+                </div>
+            </section>
+            <section class="homepageSections row">
+                <div class="homepageDiv">
+                    <p class="font-weight-bold">Y además, si te registras, vas a poder visualizar las editoriales de los libros en stock y si tenes la posibilidad de ser admin, vas a poder administrarlos!!</p>
+                    <a th:href="@{/editorial/lista}" class="btn btn-dark btn-xl rounded-pill mt-2">Editoriales</a>
+                </div>
+                <img src="/img/editorial.jpg" class="imgsHomepage">
+            </section>
+            <section class="homepageSectionsColumn row">
+                <p class="pSize font-weight-bold" th:unless="${session.usuariosession.cliente != null}">Si te interesa pedir libros te pediremos que ingreses unos datos extras!! 
+                    De esta forma tendras una cuenta cliente y podras pedir prestamos de libros!!</p>
+                <a th:unless="${session.usuariosession.cliente != null}" th:href="@{/cliente/registro/__${session.usuariosession.id}__}" class="btn btn-success btn-xl rounded-pill mt-5">¡Ingresar Datos!</a>
+
+                <p class="pSize font-weight-bold" th:if="${session.usuariosession.cliente != null}">Te interesa pedir un libro prestado?</p>
+                <p class="pSize font-weight-bold" th:if="${session.usuariosession.cliente != null && session.usuariosession.cliente.alta == false}">Antes debes dar de alta nuevamente a tu cuenta cliente.</p>
+                
+                <a th:if="${session.usuariosession.cliente != null && session.usuariosession.cliente.alta == true}" th:href="@{/prestamo/registro/__${session.usuariosession.cliente.id}__}" class="btn btn-success btn-xl rounded-pill mt-5">¡Pedir un Libro!</a>
+                <a th:if="${session.usuariosession.cliente != null && session.usuariosession.cliente.alta == false}" th:href="@{/usuario/editar-perfil/__${session.usuariosession.id}__}" class="btn btn-success btn-xl rounded-pill mt-5">Ir a modificar el alta!</a>
+            
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+</html>

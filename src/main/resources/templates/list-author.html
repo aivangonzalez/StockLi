@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+
+        <main>
+            <section>
+                <div th:if="${error}!=null" class="card text-white bg-danger m-2" >
+                    <div class="card-body">
+                        <h5 class="card-title">Error</h5>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
+            </section>
+            <section class="listPosition">
+                <h2>Autores</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Esta activo?</th>
+                            <th scope="col" sec:authorize="hasRole('ADMIN')">Alta/Baja</th>
+                            <th scope="col" sec:authorize="hasRole('ADMIN')">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="autor : ${autores}">
+                        <tr>
+                            <th scope="row" th:text="${autor.nombre}"></th>
+                            <td>
+                                <i th:if="${autor.alta}" class="fa fa-circle text-success"></i>
+                                <i th:unless="${autor.alta}" class="fa fa-circle" style="color:red;"></i>
+                            </td>
+                            <td sec:authorize="hasRole('ADMIN')">
+                                <a th:href="@{/autor/alta/__${autor.id}__}"><i class="fa fa-arrow-up"></i></a> 
+                                <a th:href="@{/autor/baja/__${autor.id}__}"><i class="fa fa-ban"></i></a>
+                            </td>
+                            <td sec:authorize="hasRole('ADMIN')">
+                                <a th:href= "@{/autor/modificar/__${autor.id}__}"  class="btn btn-outline-secondary" role="button">Editar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="agregarBtn" sec:authorize="hasRole('ADMIN')">
+                    <a href="/autor/registro" class="btn btn-outline-success">Agregar</a>
+                </div>
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+
+</html>

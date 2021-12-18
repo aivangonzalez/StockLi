@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        <main>
+            <section>
+                <div style="height: 12vh;"></div>
+                <div th:if="${exito}!=null" class="card text-white bg-success m-2" >
+                    <div class="card-body">
+                        <h5 class="card-title">Exito</h5>
+                        <p class="card-text" th:text="${exito}"></p>
+                    </div>
+                </div>
+                <div th:if="${error}!=null" class="card text-white bg-danger m-2" >
+                    <div class="card-body">
+                        <h5 class="card-title">Error</h5>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
+            </section>
+            <section class="formPosition">
+                <h2>Prestamo</h2>
+                <p>¡¡Elige el libro y la fecha de devolución!!</p>
+                <p class="mb-5" style="color:green; text-align: center; font-weight: bold">Solo podrás elegir aquellos libros que tengan disponibilidad y los que estén dados de alta.</p>
+                <form th:action="@{/prestamo/registro/__${session.usuariosession.cliente.id}__}" method="POST" class="col-6 flexColumn">
+                    <input hidden th:value="${id}" name="id">
+                    <div class="form-group">
+                        <label for="libro">Libros Disponibles</label><br>
+                        <div class="pFlex">
+                            <select class="form-control custom-select" name="libro">
+                                <option selected disabled>Seleccione un libro</option>
+                                <option th:each="libro: ${libros}" th:value="${libro.id}" th:text="${libro.titulo}" aria-describedby="autorHelp"></option>
+                            </select>                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaDevolucion">Fecha de Devolución</label>
+                        <input type="date" class="form-control" name="fechaDevolucion"  min="2021-12-08" max="2022-02-01">
+                    </div>
+                    <button type="submit" class="btn btn-outline-success mt-4">Pedir Libro</button>
+                </form>
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        <main>
+            <section>
+                <div th:if="${error}!=null" class="card text-white bg-danger m-2" >
+                    <div class="card-body">
+                        <h5 class="card-title">Error</h5>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
+            </section>
+            <section class="listPosition">
+                <h2>Usuarios</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Mail</th>
+                            <th scope="col">Zona</th>
+                            <th scope="col">Alta</th>
+                            <th scope="col">Baja</th>
+                            <th scope="col">Foto</th>
+                            <th scope="col">Rol</th>
+                            <th scope="col">ClienteId</th>
+                            <th scope="col">Esta activo?</th>
+                            <th scope="col">Alta/Baja</th>
+                            <th scope="col">Cambiar Rol</th>
+                            <th scope="col">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="usuario : ${usuarios}">
+                        <tr>
+                            <td scope="row" th:text="${usuario.nombre}"></td>
+                            <th th:text="${usuario.apellido}"></th>
+                            <td th:text="${usuario.mail}"></td>
+                            <td th:text="${usuario.zona.nombre}"></td>
+                            <td th:text="${usuario.alta}"></td>
+                            <!-- Los siguentes dos td son de la misma columna y se mostrará solo uno segun la condición-->
+                            <td th:if="${usuario.baja != null}" th:text="${usuario.baja}"></td>
+                            <td th:unless="${usuario.baja != null}" th:text="${'null'}"></td>
+                            
+                            <td>
+                                <img th:if="${usuario.foto != null}" class="img-thumbnail rounded-circle" th:src="${'/foto/usuario/' + usuario.id}" alt="" style="width: 2.5em">
+                                <img th:unless="${usuario.foto != null}" th:text="${'s/img'}">
+                            </td>
+                            <td th:text="${usuario.rol}"></td>
+                            <!-- Los siguentes dos td son de la misma columna y se mostrará solo uno segun la condición-->
+                            <td th:if="${usuario.cliente != null}" th:text="${usuario.cliente.id}"></td>
+                            <td th:unless="${usuario.cliente != null}" th:text="${'null'}"></td>
+                            
+                            <td>
+                                <i th:if="${usuario.baja == null}" class="fa fa-circle text-success"></i>
+                                <i th:unless="${usuario.baja == null}" class="fa fa-circle" style="color:red;"></i>
+                            </td>
+                            <td>
+                                <a th:href="@{/usuario/alta/__${usuario.id}__}"><i class="fa fa-arrow-up"></i></a> 
+                                <a th:href="@{/usuario/baja/__${usuario.id}__}"><i class="fa fa-ban"></i></a>
+                            </td>
+                            <td>
+                                <a th:href="@{/admin/cambiar_rol/__${usuario.id}__}"><i class="fas fa-feather-alt"></i></a>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-secondary" th:href="@{/usuario/editar-perfil(id=__${session.usuariosession.id}__)}" role="button">Editar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="listPosition">
+                <h2>Clientes</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Documento</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Esta activo?</th>
+                            <th scope="col">Alta/Baja</th>
+                            <th scope="col">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="cliente : ${clientes}">
+                        <tr>
+                            <td scope="row" th:text="${cliente.documento}"></td>
+                            <th th:text="${cliente.nombre}"></th>
+                            <td th:text="${cliente.apellido}"></td>
+                            <td th:text="${cliente.telefono}"></td>
+                            <td>
+                                <i th:if="${cliente.alta == true}" class="fa fa-circle text-success"></i>
+                                <i th:unless="${cliente.alta == true}" class="fa fa-circle" style="color:red;"></i>
+                            </td>
+                            <td>
+                                <a th:href="@{/admin/alta_cliente/__${cliente.id}__}"><i class="fa fa-arrow-up"></i></a> 
+                                <a th:href="@{/admin/baja_cliente/__${cliente.id}__}"><i class="fa fa-ban"></i></a>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-secondary" th:href="@{/cliente/modificar/__${cliente.id}__}" role="button">Editar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="listPosition">
+                <h2>Historial de Prestamos</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Fecha de inicio</th>
+                            <th scope="col">Fecha de devolución</th>
+                            <th scope="col">Esta activo?</th>
+                            <th scope="col">Libro prestado</th>
+                            <th scope="col">Id del cliente</th>
+                            <th scope="col">Nombre del cliente</th>
+                            <th scope="col">Alta/Baja</th>
+                            <th scope="col">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="prestamo : ${prestamos}">
+                        <tr>
+                            <td scope="row" th:text="${prestamo.fechaPrestamo}"></td>
+                            <!-- Los siguentes dos td son de la misma columna y se mostrará solo uno segun la condición-->
+                            <td th:if="${prestamo.fechaDevolucion != null}" th:text="${prestamo.fechaDevolucion}"></td>
+                            <td th:unless="${prestamo.fechaDevolucion != null}" th:text="${'null'}"></td>
+                            <td>
+                                <i th:if="${prestamo.alta == true}" class="fa fa-circle text-success"></i>
+                                <i th:unless="${prestamo.alta == true}" class="fa fa-circle" style="color:red;"></i>
+                            </td>
+                            <td th:text="${prestamo.book.titulo}"></td>
+                            <td th:text="${prestamo.client.id}"></td>
+                            <td th:text="${prestamo.client.nombre}"></td>
+                            <td>
+                                <a th:href="@{/admin/alta_prestamo/__${prestamo.id}__}"><i class="fa fa-arrow-up"></i></a> 
+                                <a th:href="@{/admin/baja_prestamo/__${prestamo.id}__}"><i class="fa fa-ban"></i></a>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-secondary" th:href="@{/prestamo/modificar/__${prestamo.id}__}" role="button">Editar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        <main>
+            <section class="formPosition">
+                <h1 class="display-4 mb-4">Login</h1>
+                <form th:action="@{/logincheck}" method="POST" class="col-3 flexColumn">
+                    <p th:if="${error != null}" th:text="${error}" style="color:red; text-align: center; font-weight: bold;"></p>
+                    <p th:if="${error2 != null}" th:text="${error2}" style="color: lightblue; text-align: center; border: 1px solid lightblue" class="rounded-pill"></p>
+                    <p th:if="${logout != null}" th:text="${logout}" style="color:green; text-align: center; font-weight: bold"></p>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="username" placeholder="Ingrese su mail">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" placeholder="Ingrese su contraseña">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-dark">Ingresar</button>
+                </form>
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+</html>

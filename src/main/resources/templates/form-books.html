@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        
+        <main>
+            <section>
+                <div style="height: 12vh;"></div>
+                <div th:if="${exito}!=null" class="card text-white bg-success mb-3" >
+                    <div class="card-body">
+                        <h5 class="card-title">Exito</h5>
+                        <p class="card-text" th:text="${exito}"></p>
+                    </div>
+                </div>
+                <div th:if="${error}!=null" class="card text-white bg-danger mb-3" >
+                    <div class="card-body">
+                        <h5 class="card-title">Error</h5>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
+            </section>
+            <section class="formPosition">
+                <h1>Formulario para agregar un libro</h1>
+                <form th:action="@{/libro/registro}" method="POST" class="col-6">
+                    <div class="form-group">
+                        <label for="isbn">ISBN</label>
+                        <input type="number" class="form-control" name="isbn">
+                    </div>
+                    <div class="form-group">
+                        <label for="titulo">Titulo</label>
+                        <input type="text" class="form-control" name="titulo">
+                    </div>
+                    <div class="form-group">
+                        <label for="anio">Año de Publicación</label>
+                        <input type="number" class="form-control" name="anio">
+                    </div>
+                    <div class="form-group">
+                        <label for="ejemplares">Ejemplares</label>
+                        <input type="number" class="form-control" name="ejemplares">
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="ejemplaresPrestados">Ejemplares Prestados</label>
+                        <input type="number" class="form-control" name="ejemplaresPrestados">
+                    </div> -->
+                    <div class="form-group">
+                        <label for="autor">Autor</label><br>
+                        <div class="pFlex">
+                            <select class="form-control custom-select" name="autor">
+                                <option selected disabled>Seleccione el autor</option>
+                                <option th:each="autor: ${autores}" th:value="${autor.id}" th:text="${autor.nombre}" aria-describedby="autorHelp"></option>
+                            </select>                            
+                            <div>
+                                <a href="/autor/registro" class="btn btn-light ml-3">Agregar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="autor">Editorial</label><br>
+                        <div class="pFlex">
+                            <select class="form-control custom-select" name="editorial">
+                                <option selected disabled>Seleccione la editorial</option>
+                                <option th:each="editorial: ${editoriales}" th:value="${editorial.id}" th:text="${editorial.nombre}" aria-describedby="autorHelp"></option>
+                            </select>                            
+                            <div>
+                                <a href="/editorial/registro" class="btn btn-light ml-3">Agregar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-success mt-4">Guardar</button>
+                </form>
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+
+</html>

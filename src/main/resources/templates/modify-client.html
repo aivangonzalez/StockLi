@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        <main>
+            <section>
+                <div style="height: 12vh;"></div>
+                <div th:if="${exito}!=null" class="card text-white bg-success mb-3" >
+                    <div class="card-body">
+                        <h5 class="card-title">Exito</h5>
+                        <p class="card-text" th:text="${exito}"></p>
+                    </div>
+                </div>
+                <div th:if="${error}!=null" class="card text-white bg-danger mb-3" >
+                    <div class="card-body">
+                        <h5 class="card-title">Error</h5>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
+            </section>
+            <section class="formPosition">
+                <h1>Formulario para modificar un cliente</h1>
+                <form th:action="@{/cliente/modificar/__${cliente.id}__}" method="POST" class="col-6">
+                    <input hidden th:value="${id}" name="id">
+                    <div class="form-group">
+                        <label for="dni">DNI</label>
+                        <input th:value="${cliente.documento}" type="number" class="form-control" name="dni">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input th:value="${cliente.nombre}" type="text" class="form-control" name="nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">Apellido</label>
+                        <input th:value="${cliente.apellido}" type="text" class="form-control" name="apellido">
+                    </div>
+                    <div class="form-group">
+                        <label for="Telefono">Telefono</label>
+                        <input th:value="${cliente.telefono}" type="text" class="form-control" name="telefono">
+                    </div>
+                    <button type="submit" class="btn btn-outline-success">Modificar</button>
+                </form>
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        <main>
+            <section>
+                <div style="height: 12vh;"></div>
+                <div th:if="${exito}!=null" class="card text-white bg-success mb-3" >
+                    <div class="card-body">
+                        <h5 class="card-title">Exito</h5>
+                        <p class="card-text" th:text="${exito}"></p>
+                    </div>
+                </div>
+                <div th:if="${error}!=null" class="card text-white bg-danger mb-3" >
+                    <div class="card-body">
+                        <h5 class="card-title">Error</h5>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
+            </section>
+            <section class="formPosition ">
+                <h2>Registro de cliente</h2>
+                <p style="color:red; text-align: center; font-weight: bold; width: 30%;">¡Importante! Despues del registro te pediremos que vuelvas a ingresar a tu cuenta, de esta forma podremos actualizar tus datos.</p>
+                <form th:action="@{/cliente/registro/__${usuario.id}__}" method="POST" class="col-5 flexColumn">
+                    <input hidden th:value="${id}" name="id">
+                    <div class="form-group">
+                        <label for="dni">DNI</label>
+                        <input type="number" class="form-control" name="dni" placeholder="Ingrese su numero de documento">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Telefono</label>
+                        <input type="text" class="form-control" name="telefono" placeholder="Ingrese su numero de telefono">
+                    </div>
+                    <button type="submit" class="btn btn-outline-success mt-4">Registrarme</button>
+                </form>
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+</html>

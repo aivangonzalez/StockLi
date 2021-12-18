@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        <main>
+            <section>
+                <div th:if="${error}!=null" class="card text-white bg-danger m-2" >
+                    <div class="card-body">
+                        <h5 class="card-title">Error</h5>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
+            </section>
+            <section class="listPosition">
+                <h2>Libros</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ISBN</th>
+                            <th scope="col">Titulo</th>
+                            <th scope="col">Año de Publicación</th>
+                            <th scope="col">Ejemplares</th>
+                            <th scope="col">Prestados</th>
+                            <th scope="col">Restantes</th>
+                            <th scope="col">Autor</th>
+                            <th scope="col">Editorial</th>
+                            <th scope="col">Esta activo?</th>
+                            <th scope="col" sec:authorize="hasRole('ADMIN')">Alta/Baja</th>
+                            <th scope="col" sec:authorize="hasRole('ADMIN')">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="libro : ${libros}">
+                        <tr>
+                            <td scope="row" th:text="${libro.isbn}"></td>
+                            <th th:text="${libro.titulo}"></th>
+                            <td th:text="${libro.anio}"></td>
+                            <td th:text="${libro.ejemplares}"></td>
+                            <td th:text="${libro.ejemplaresPrestados}"></td>
+                            <td th:text="${libro.ejemplaresRestantes}"></td>
+                            <td th:text="${libro.author.nombre}"></td>
+                            <td th:text="${libro.p_House.nombre}"></td>
+                            <td>
+                                <i th:if="${libro.alta}" class="fa fa-circle text-success"></i>
+                                <i th:unless="${libro.alta}" class="fa fa-circle" style="color:red;"></i>
+                            </td>
+                            <td sec:authorize="hasRole('ADMIN')">
+                                <a th:href="@{/libro/alta/__${libro.id}__}"><i class="fa fa-arrow-up"></i></a> 
+                                <a th:href="@{/libro/baja/__${libro.id}__}"><i class="fa fa-ban"></i></a>
+                            </td>
+                            <td sec:authorize="hasRole('ADMIN')">
+                                <a class="btn btn-outline-secondary" th:href="@{/libro/modificar/__${libro.id}__}" role="button">Editar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="agregarBtn" sec:authorize="hasRole('ADMIN')">
+                    <a href="/libro/registro" class="btn btn-outline-success">Agregar</a>
+                </div>
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+
+</html>

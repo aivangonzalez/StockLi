@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        
+        <main>
+            <section>
+                <div style="height: 12vh;"></div>
+                <div th:if="${exito}!=null" class="card text-white bg-success m-2" >
+                    <div class="card-body">
+                        <h5 class="card-title">Exito</h5>
+                        <p class="card-text" th:text="${exito}"></p>
+                    </div>
+                </div>
+                <div th:if="${error}!=null" class="card text-white bg-danger m-2" >
+                    <div class="card-body">
+                        <h5 class="card-title">Error</h5>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
+            </section>
+            <section class="formPosition">
+                <h1>Formulario para agregar una editorial</h1>
+                <form th:action="@{/editorial/registro}" method="POST" class="col-6">
+                    <div class="form-group">
+                        <label for="nombre">Nombre de la Editorial</label>
+                        <input type="text" class="form-control" name="nombre">
+                    </div>
+                    <button type="submit" class="btn btn-outline-success">Guardar</button>
+                </form>
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+
+</html>

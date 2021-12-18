@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        <main>
+            <section>
+                <div style="height: 12vh;"></div>
+                <div th:if="${exito}!=null" class="card text-white bg-success m-2" >
+                    <div class="card-body">
+                        <h5 class="card-title">Exito</h5>
+                        <p class="card-text" th:text="${exito}"></p>
+                    </div>
+                </div>
+                <div th:if="${error}!=null" class="card text-white bg-danger m-2" >
+                    <div class="card-body">
+                        <h5 class="card-title">Error</h5>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
+            </section>
+            <section class="formPosition">
+                <h1 class="display-4 mb-4">Registro</h1>
+                <form th:action="@{/registro}" method="POST" class="col-5 flexColumn" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" name="nombre" th:value="${nombre}" placeholder="Ingrese su nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">Apellido</label>
+                        <input type="text" class="form-control" name="apellido" th:value="${apellido}" placeholder="Ingrese su apellido">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">E-Mail</label>
+                        <input type="text" class="form-control" name="username" th:value="${username}" placeholder="Ingrese su mail">
+                    </div>
+                    <div class="form-group">
+                        <label for="foto">Foto</label>
+                        <input  type="file" class="form-control" name="foto">
+                    </div>
+                    <div class="form-group">
+                        <label for="zona">Zona</label><br>
+                        <div class="pFlex">
+                            <select class="form-control custom-select" name="zonaId">
+                                <option selected disabled>Seleccione la zona</option>
+                                <option th:each="zona: ${zonas}" th:value="${zona.id}" th:text="${zona.nombre}" aria-describedby="zonaHelp"></option>
+                            </select>                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Clave</label>
+                        <input type="password" class="form-control" name="password" th:value="${password}" placeholder="Ingrese la clave">
+                    </div>
+                    <div class="form-group">
+                        <label for="password2">Repetir Clave</label>
+                        <input type="password" class="form-control" name="password2" th:value="${password2}" placeholder="Ingrese nuevamente la clave">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-dark mt-3">Registrarme</button>
+                </form>
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        <header>
+            <div>
+                <img src="/img/portadaLibreria.jpg" class="d-block w-100 sizePortada" alt="biblioteca">
+                <div class="carousel-caption d-none d-md-block h1PositionPortada">
+                    <h1 class="h1PortadaText font-italic">StockLi</h1>
+                </div>
+            </div>
+        </header>
+        <main>
+            <section th:if="${session.usuariosession == null}">
+                <div>
+                    <div class="jumbotron jumbotron-fluid jumbotronStyle">                        
+                        <div class="container justify-content-center formPosition">
+                            <h1 class="display-4">¡¡Bienvenido/a a StockLi!!</h1>
+                            <p class="lead">En esta app vas a poder visualizar el stock disponible de libros y lo mejor de todo es que vas a tener la posibilidad de pedir prestado cualquiera de ellos de una forma ¡¡SENCILLA!!</p>
+                            <a th:href="@{/registro}" th:if="${session.usuariosession == null}" class="btn btn-outline-light btn-xl rounded-pill mt-5">¡Registrate!</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="homepageSections row">
+                <div class="homepageDiv">
+                    <p class="font-weight-bold">Vas a tener a tu alcance una gran cantidad de libros muy diversos y la posibilidad de tenerlos en forma de préstamo!! Además si sos admin podras administrarlos!!</p>
+                </div>
+                <img src="/img/libro.jpg" class="imgsHomepage">
+            </section>
+            <section class="homepageSections row colorSection">
+                <img src="/img/autor.jpg" class="imgsHomepage">
+                <div class="homepageDiv">
+                    <p class="font-weight-bold">Vas a tener a tu alcance una lista con todos los autores disponibles y si tenes la posibilidad de ser admin, vas a poder administrarlos!!</p>
+                </div>
+            </section>
+            <section class="homepageSections row">
+                <div class="homepageDiv">
+                    <p class="font-weight-bold">Y además, si te registras, vas a poder visualizar las editoriales de los libros en stock y si tenes la posibilidad de ser admin, vas a poder administrarlos!!</p>
+                </div>
+                <img src="/img/editorial.jpg" class="imgsHomepage">
+            </section>
+            <section class="homepageSectionsColumn row colorSection" th:if="${session.usuariosession == null}">
+                <a th:href="@{/registro}" th:if="${session.usuariosession == null}" class="btn btn-outline-light btn-xl rounded-pill mt-5">¡Registrate!</a>
+                <a class="nav-link font-weight-bolder text-light" href="/login" th:if="${session.usuariosession == null}">Log In</a>
+            </section>
+
+
+
+
+
+
+
+            <!-- En la etiqueta de abajo "section" para que las cards sean responsive se necesita agregar la clase "row"
+            sin embargo cuando agrego esa clase me suma un padding o un margen hacia la derecha y me agranda el tamaño 
+            de la pestaña horizontalmente, averiguar como evitar eso-->
+            <!--<section class="cardsPosition">
+                <div class="card" style="width: 18rem;">
+                    <img src="img/autor.jpg" class="card-img-top" alt="Autor">
+                    <div class="card-body">
+                        <h5 class="card-title">Autores</h5>
+                        <p class="card-text">Agrega autores, modificalos, buscalos o dalos de baja.</p>
+                        <a href="/autor/registro" class="btn btn-outline-secondary">Agregar</a>
+                        <a href="/autor/lista" class="btn btn-outline-secondary">Otros</a>
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem;">
+                    <img src="img/editorial.jpg" class="card-img-top" alt="Editorial">
+                    <div class="card-body">
+                        <h5 class="card-title">Editoriales</h5>
+                        <p class="card-text">Agrega editoriales, modificalas, buscalas o dalas de baja.</p>
+                        <a href="/editorial/registro" class="btn btn-outline-secondary">Agregar</a>
+                        <a href="/editorial/lista" class="btn btn-outline-secondary">Otros</a>
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem;">
+                    <img src="img/libro.jpg" class="card-img-top" alt="Libro">
+                    <div class="card-body">
+                        <h5 class="card-title">Libros</h5>
+                        <p class="card-text">Agrega libros, modificalos, buscalos o dalos de baja.</p>
+                        <a href="/libro/registro" class="btn btn-outline-secondary">Agregar</a>
+                        <a href="/libro/lista" class="btn btn-outline-secondary">Otros</a>
+                    </div>
+                </div>
+            </section>-->
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+
+</html>

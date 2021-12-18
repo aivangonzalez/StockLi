@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head"></head>
+
+    <body>
+        <nav th:replace="/fragments/navbar :: nav"></nav>
+        <main>
+            <div style="height: 12vh;"></div>
+            <section class="listPosition">
+                <div class="flexColumn">
+                    <h2>Lista de prestamos personales del cliente</h2>
+                </div>
+                <section>
+                    <div th:if="${exito}!=null" class="card text-white bg-success m-2" >
+                        <div class="card-body">
+                            <h5 class="card-title">Exito</h5>
+                            <p class="card-text" th:text="${exito}"></p>
+                        </div>
+                    </div>
+                    <div th:if="${error}!=null" class="card text-white bg-danger m-2" >
+                        <div class="card-body">
+                            <h5 class="card-title">Error</h5>
+                            <p class="card-text" th:text="${error}"></p>
+                        </div>
+                    </div>
+                </section>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Libro</th>
+                            <th scope="col">Autor</th>
+                            <th scope="col">Editorial</th>
+                            <th scope="col">Fecha del pedido</th>
+                            <th scope="col">Fecha de devolución</th>
+                            <th scope="col">Estado del prestamo</th>
+                            <th scope="col">Devolver libro</th>
+                            <th scope="col">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="prestamo : ${prestamosSegunCliente}">
+                        <tr>
+                            <td scope="row" th:text="${prestamo.client.nombre}"></td>
+                            <th th:text="${prestamo.book.titulo}"></th>
+                            <td th:text="${prestamo.book.author.nombre}"></td>
+                            <td th:text="${prestamo.book.p_House.nombre}"></td>
+                            <td th:text="${prestamo.fechaPrestamo}"></td>
+                            <td th:text="${prestamo.fechaDevolucion}"></td>
+                            <td>
+                                
+                                <p th:if="${prestamo.alta == true}">Devolución pendiente</p>
+                                <p th:unless="${prestamo.alta == true}">Libro devuelto</p>
+                            </td>
+                            <td>
+                                <a th:href="@{/prestamo/baja/__${prestamo.id}__}" class="icon"><i class="fas fa-undo-alt"></i></a> 
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-secondary" th:if="${prestamo.alta}" th:href="@{/prestamo/modificar/__${prestamo.id}__}" role="button">Editar devolución</a>
+                                <p th:unless="${prestamo.alta == true}">No puedes editar prestamos terminados</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="agregarBtn">
+                    <a href="/prestamo/registro" class="btn btn-outline-success">Pedir otro libro</a>
+                </div>
+            </section>
+        </main>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script th:replace="/fragments/scriptBootstrap :: script"></script>
+    </body>
+</html>
